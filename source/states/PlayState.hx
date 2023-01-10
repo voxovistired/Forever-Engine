@@ -71,6 +71,7 @@ class PlayState extends MusicBeatState
 
 	public static var dadOpponent:Character;
 	public static var boyfriend:Character;
+	public static var girlfriend:Character;
 
 	public static var assetModifier:String = 'default';
 
@@ -209,16 +210,29 @@ class PlayState extends MusicBeatState
 		displayRating('sick', false, true);
 		popUpCombo(true);
 
+
 		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
 		boyfriend = new Character().setCharacter(750, 850, SONG.player1, true);
 
-		// set the camera position to the center of the stage
-		var camPos:FlxPoint = new FlxPoint(((dadOpponent.x + dadOpponent.width / 2) + (boyfriend.x + boyfriend.width / 2)) / 2,
-			((dadOpponent.y + dadOpponent.height / 2) + (boyfriend.y + boyfriend.height / 2)) / 2);
+		// We Initialize the camera just incase we want to use a different Position of camera
+		var camPos:FlxPoint = new FlxPoint();
+		//girlfriend = new Character().setCharacter(400, 44, SONG.)
 
 		stageBuild = new Stage(curStage, camPos);
 		add(stageBuild);
 
+		// Once we call the stageBuild, we can now grab the calues we stored from our charPos array, amd then do some checks to see if whether the values are null or not.
+		var dadPos = stageBuild.charPos.get("dad");
+		var bfPos = stageBuild.charPos.get("boyfriend");
+
+		dadPos.x != null ? dadOpponent.x = dadPos.x : 50; dadPos.y != null ? dadOpponent.y = dadPos.y : 850;
+		bfPos.x != null ? boyfriend.x = bfPos.x : 750; bfPos.y != null ? boyfriend.y = bfPos.y : 850;
+
+		// We check here to see if we have a custom camera position or not since we do not want to override it.
+		if (camPos.x == 0 && camPos.y == 0) {
+			camPos.x = ((dadOpponent.x + dadOpponent.width / 2) + (boyfriend.x + boyfriend.width / 2)) / 2;
+			camPos.y = ((dadOpponent.y + dadOpponent.height / 2) + (boyfriend.y + boyfriend.height / 2)) / 2;
+		}
 		if (SONG.assetModifier != null && SONG.assetModifier.length > 1)
 			assetModifier = SONG.assetModifier;
 

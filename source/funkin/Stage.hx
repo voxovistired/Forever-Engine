@@ -9,6 +9,12 @@ import flixel.math.FlxPoint;
 import haxe.ds.StringMap;
 import states.PlayState;
 
+// We allow null values here so we can adjust properly
+typedef CharPosition = {
+	var x:Null<Float>;
+	var y:Null<Float>;
+}
+
 class Stage extends FlxTypedGroup<FlxBasic>
 {
 	public var defaultCamZoom(never, set):Float;
@@ -23,6 +29,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public var stageModule:ForeverModule;
 	public var foreground:FlxTypedGroup<FlxBasic>;
 	public var layers:FlxTypedGroup<FlxBasic>;
+	public var charPos:StringMap<CharPosition>;
 
 	public function new(stage:String, ?camPos:FlxPoint)
 	{
@@ -30,6 +37,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		foreground = new FlxTypedGroup<FlxBasic>();
 		layers = new FlxTypedGroup<FlxBasic>();
+		charPos = new StringMap<CharPosition>();
+
+		charPos.set('dad', {x: null, y: null});
+		charPos.set('boyfriend', {x: null, y: null});
 
 		var exposure:StringMap<Dynamic> = new StringMap<Dynamic>();
 		exposure.set('add', add);
