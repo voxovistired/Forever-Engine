@@ -221,7 +221,7 @@ class PlayState extends MusicBeatState
 		stageBuild = new Stage(curStage, camPos);
 		add(stageBuild);
 
-		// Once we call the stageBuild, we can now grab the calues we stored from our charPos array, amd then do some checks to see if whether the values are null or not.
+		// Once we call the stageBuild, we can now grab the values we stored from our charPos array, and then do some checks to see if whether the values are null or not.
 		var dadPos = stageBuild.charPos.get("dad");
 		var bfPos = stageBuild.charPos.get("boyfriend");
 
