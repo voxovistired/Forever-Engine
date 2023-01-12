@@ -216,7 +216,6 @@ class PlayState extends MusicBeatState
 
 		// We Initialize the camera just incase we want to use a different Position of camera
 		var camPos:FlxPoint = new FlxPoint();
-		//girlfriend = new Character().setCharacter(400, 44, SONG.)
 
 		stageBuild = new Stage(curStage, camPos);
 		add(stageBuild);
@@ -224,9 +223,13 @@ class PlayState extends MusicBeatState
 		// Once we call the stageBuild, we can now grab the values we stored from our charPos array, and then do some checks to see if whether the values are null or not.
 		var dadPos = stageBuild.charPos.get("dad");
 		var bfPos = stageBuild.charPos.get("boyfriend");
+		var returns:Array<String> = new Array<String>();
 
-		dadPos.x != null ? dadOpponent.x = dadPos.x : 50; dadPos.y != null ? dadOpponent.y = dadPos.y : 850;
-		bfPos.x != null ? boyfriend.x = bfPos.x : 750; bfPos.y != null ? boyfriend.y = bfPos.y : 850;
+		dadPos.x != null ? dadOpponent.x = getPosition(dadPos.x, dadOpponent, "x") : returns.push("No Opponent X Axis!");
+		dadPos.y != null ? dadOpponent.y = getPosition(dadPos.y, dadOpponent, "y") : returns.push("No Opponent Y Axis!");
+		bfPos.x != null ? boyfriend.x = getPosition(bfPos.x, boyfriend, "x") : returns.push("No Boyfriend X Axis!"); 
+		bfPos.y != null ? boyfriend.y = getPosition(bfPos.y, boyfriend, "y") : returns.push("No Boyfriend Y Axis!");
+		trace(returns);
 
 		// We check here to see if we have a custom camera position or not since we do not want to override it.
 		if (camPos.x == 0 && camPos.y == 0) {
@@ -314,6 +317,17 @@ class PlayState extends MusicBeatState
 		songIntroCutscene();
 
 		Paths.clearUnusedMemory();
+	}
+
+	private function getPosition(num:Float, character:Character, axis:String) {
+		var returnedValue:Float = num;
+		switch(axis) {
+			case "x":
+				returnedValue += character.characterOffset.x;
+			case "y":
+				returnedValue += (character.characterOffset.y- (character.frameHeight * character.scale.y));
+		}
+		return returnedValue;
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
